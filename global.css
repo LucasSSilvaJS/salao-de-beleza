@@ -19,9 +19,12 @@ html, body{
     --texto-branco: #ffffff;
     --texto-secundario: #F59323;
 
+    --cor-table: #d9d9d9;
+
     --cor-sucesso: #A7D741;
     --cor-perigo: #FF0505;
     --cor-informacao: #40A8CE;
+    --cor-cinza: #6E7C7C;
 
     --fonte-primaria: "Urbanist", sans-serif;
 }
@@ -32,6 +35,10 @@ html, body{
 
 .texto-branco{
     color: var(--texto-branco) !important;
+}
+
+.texto-primario{
+    color: var(--cor-primaria) !important;
 }
 
 .texto-secundario{
@@ -64,4 +71,16 @@ html, body{
 
 .bg-informacao{
     background-color: var(--cor-informacao) !important;
+}
+
+.bg-cinza{
+    background-color: var(--cor-cinza) !important;
+}
+
+.bg-table{
+    background-color: var(--cor-table) !important;
+}
+
+.tab-menu-ativo{
+    border-top: 10px solid var(--cor-primaria) !important;
 }
