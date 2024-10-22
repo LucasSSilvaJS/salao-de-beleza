@@ -234,6 +234,93 @@ const conteudoLista = [
     },
 ];
 
+function obterValorInputDate(){
+    const inputDate = document.querySelectorAll('.input-data')[0].value;
+    const [ano, mes, dia] = inputDate.split('-');
+    return {ano, mes, dia};
+}
+
+
+function obterDataAtual() {
+    const dia = String(new Date().getDate()).padStart(2, '0');
+    const mes = String(new Date().getMonth() + 1).padStart(2, '0');
+    const ano = new Date().getFullYear();
+
+    return { dia, mes, ano };
+}
+
+function inserirValorInputData() {
+    const inputData = document.querySelectorAll('.input-data');
+    inputData.forEach(input => {
+        const { dia, mes, ano } = obterDataAtual();
+        input.value = `${ano}-${mes}-${dia}`;
+    });
+}
+
+function exibirData() {
+    const inputData = document.querySelectorAll('.input-data');
+    inputData.forEach(input => {
+        const dataExibicao = document.querySelectorAll('.data-exibicao');
+        dataExibicao.forEach(d => d.innerHTML = formatarExibicao(input.value));
+    });
+}
+
+function observarMudancaDataExibicao() {
+    const inputData = document.querySelectorAll('.input-data');
+    inputData.forEach(input => {
+        input.addEventListener('change', () => {
+            const dataExibicao = document.querySelectorAll('.data-exibicao');
+            dataExibicao.forEach(d => d.innerHTML = formatarExibicao(input.value));
+        })
+    });
+}
+
+function incrementarData() {
+    const incrementarDataBtns = document.querySelectorAll('.incrementar-data');
+    incrementarDataBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const inputData = document.querySelectorAll('.input-data');
+            inputData.forEach(input => {
+                const dataAtual = new Date(input.value);
+                dataAtual.setDate(dataAtual.getDate() + 1);
+                input.value = dataAtual.toISOString().split('T')[0];
+                exibirData();
+            });
+        });
+    });
+}
+
+function decrementarData() {
+    const decrementarDataBtns = document.querySelectorAll('.decrementar-data');
+    decrementarDataBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const inputData = document.querySelectorAll('.input-data');
+            inputData.forEach(input => {
+                const dataAtual = new Date(input.value);
+                dataAtual.setDate(dataAtual.getDate() - 1);
+                input.value = dataAtual.toISOString().split('T')[0];
+                exibirData();
+            });
+        });
+    });
+}
+
+function formatarExibicao(valor) {
+    const [ano, mes, dia] = valor.split('-');
+    const diaDaSemana = obterDiaDaSemana(dia, mes, ano);
+    const mesExtenso = obterMesEmCaixaAlta(mes);
+
+    return `${diaDaSemana}, ${dia}/${mesExtenso}/${ano}`;
+}
+
+window.onload = () => {
+    inserirValorInputData();
+    exibirData();
+    observarMudancaDataExibicao();
+    incrementarData();
+    decrementarData();
+};
+
 function gerarAtendimento() {
     elementoConteudo.innerHTML = '';
     conteudoLista.forEach(conteudo => {
@@ -269,8 +356,8 @@ function obterQuantidadeDeDias(mes, ano) {
     return primeiroDiaDoProximoMes.getDate();
 }
 
-function obterDiaDaSemana(mes, ano) {
-    const dataObj = new Date(ano, mes - 1, 1);
+function obterDiaDaSemana(dia, mes, ano) {
+    const dataObj = new Date(ano, mes - 1, dia); // Aceita o dia como parâmetro
 
     const diasDaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 
@@ -292,14 +379,13 @@ function obterMesEmCaixaAlta(mes) {
     return meses[mes - 1].substring(0, 3).toUpperCase();
 }
 
-function inserirTabelaSemana(){
+function inserirTabelaSemana() {
 
     const tableHeader = document.getElementById('table-header');
     const tableBody = document.getElementById('table-body');
 
-    const mes = 10;
-    const ano = 2024;
-    
+    const { mes, ano } = obterDataAtual();
+
     const mesPorEscrito = obterMesEmCaixaAlta(mes);
 
     conteudoLista.forEach(conteudo => {
@@ -314,7 +400,7 @@ function inserirTabelaSemana(){
         for (let dia = 1; dia < obterQuantidadeDeDias(mes, ano); dia++) {
             linha.innerHTML += `<td class="text-center texto-primario"></td>`;
         }
-        
+
     })
 
     for (let dia = 1; dia < obterQuantidadeDeDias(mes, ano); dia++) {
@@ -323,7 +409,7 @@ function inserirTabelaSemana(){
     }
 }
 
-function gerarTabelaSemana(){
+function gerarTabelaSemana() {
     elementoConteudo.innerHTML = '';
     elementoConteudo.innerHTML = `
         <table class="table w-100">
@@ -341,7 +427,7 @@ function gerarTabelaSemana(){
     inserirTabelaSemana();
 }
 
-function gerarTabelaMes(){
+function gerarTabelaMes() {
     elementoConteudo.innerHTML = `
         <table class="table table-bordered w-100" style="table-layout: fixed;">
                 <thead>
