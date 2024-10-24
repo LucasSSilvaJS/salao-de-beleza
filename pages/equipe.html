@@ -120,40 +120,40 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form name="formulario" id="form-funcionario">
                                     <div class="mb-3">
                                         <label class="form-label">Nome</label>
-                                        <input type="text" class="form-control" placeholder="Digite seu nome">
+                                        <input type="text" class="form-control" placeholder="Digite seu nome" name="nome">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Função</label>
-                                        <select class="form-control">
+                                        <select class="form-control" name="funcao">
                                             <option selected disabled>Selecione uma função</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Disponibilidade</label>
-                                        <select class="form-control">
+                                        <select class="form-control" name="disponibilidade">
                                             <option selected disabled>Selecione sua disponibilidade</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Telefone</label>
-                                        <input type="text" class="form-control" placeholder="Digite seu telefone">
+                                        <input type="text" class="form-control" placeholder="Digite seu telefone" name="telefone">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">E-mail</label>
-                                        <input type="text" class="form-control" placeholder="Digite seu e-mail">
+                                        <input type="text" class="form-control" placeholder="Digite seu e-mail" name="email">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Observações</label>
-                                        <input type="text" class="form-control" placeholder="Digite sua observação">
+                                        <input type="text" class="form-control" placeholder="Digite sua observação" name="observacoes">
                                     </div>
+                                    <button type="submit" class="w-100 btn bg-sucesso text-white">Cadastrar</button>
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                <button type="button" class="btn bg-sucesso text-white">Cadastrar</button>
                             </div>
                         </div>
                     </div>

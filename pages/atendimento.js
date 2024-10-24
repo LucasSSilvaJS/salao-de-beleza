@@ -275,6 +275,19 @@ function observarMudancaDataExibicao() {
     });
 }
 
+function atualizarTabelaSemana() {
+    const inputData = document.querySelectorAll('.input-data');
+    inputData.forEach(input => {
+        input.addEventListener('change', () => {
+            const dataInput = new Date(input.value);
+            gerarTabelaSemana(
+                dataInput.getMonth() + 1,
+                dataInput.getFullYear()
+            );
+        })
+    });
+}
+
 function incrementarData() {
     const incrementarDataBtns = document.querySelectorAll('.incrementar-data');
     incrementarDataBtns.forEach(btn => {
@@ -312,14 +325,6 @@ function formatarExibicao(valor) {
 
     return `${diaDaSemana}, ${dia}/${mesExtenso}/${ano}`;
 }
-
-window.onload = () => {
-    inserirValorInputData();
-    exibirData();
-    observarMudancaDataExibicao();
-    incrementarData();
-    decrementarData();
-};
 
 function gerarAtendimento() {
     elementoConteudo.innerHTML = '';
@@ -379,12 +384,10 @@ function obterMesEmCaixaAlta(mes) {
     return meses[mes - 1].substring(0, 3).toUpperCase();
 }
 
-function inserirTabelaSemana() {
+function inserirTabelaSemana(mes, ano) {
 
     const tableHeader = document.getElementById('table-header');
     const tableBody = document.getElementById('table-body');
-
-    const { mes, ano } = obterDataAtual();
 
     const mesPorEscrito = obterMesEmCaixaAlta(mes);
 
@@ -409,10 +412,10 @@ function inserirTabelaSemana() {
     }
 }
 
-function gerarTabelaSemana() {
+function gerarTabelaSemana(mes, ano) {
     elementoConteudo.innerHTML = '';
     elementoConteudo.innerHTML = `
-        <table class="table w-100">
+        <table class="table w-100" id="tabela-semana">
             <thead class="table-secondary">
                 <tr id="table-header">
                     <th class="text-center texto-primario fw-semibold">Horário</th>
@@ -424,7 +427,7 @@ function gerarTabelaSemana() {
             </tbody>
         </table>
     `;
-    inserirTabelaSemana();
+    inserirTabelaSemana(mes, ano);
 }
 
 function gerarTabelaMes() {
@@ -524,18 +527,40 @@ function gerarTabelaMes() {
     `
 }
 
+function gerarSemanaDinamicamente(){
+    const hidenData = document.querySelectorAll('.input-data');
+    semana.forEach(s => {
+        s.addEventListener('click', () => {
+            const dataDoInput = new Date(hidenData[0].value);
+            dataDoInput.setDate(dataDoInput.getDate() + 1);
+            const mesAtual = dataDoInput.getMonth() + 1;
+            const anoAtual = dataDoInput.getFullYear();
+            gerarTabelaSemana(mesAtual, anoAtual);
+        });
+    })
+}
+
+
+
+window.onload = () => {
+    inserirValorInputData();
+    exibirData();
+    observarMudancaDataExibicao();
+    incrementarData();
+    decrementarData();
+};
+
 const dia = document.querySelectorAll('.dia');
 const semana = document.querySelectorAll('.semana');
 const mes = document.querySelectorAll('.mes');
 
 dia.forEach(d => {
     d.addEventListener('click', gerarAtendimento);
-})
-
-semana.forEach(s => {
-    s.addEventListener('click', gerarTabelaSemana);
-})
+});
 
 mes.forEach(m => {
     m.addEventListener('click', gerarTabelaMes);
-})
+});
+
+gerarSemanaDinamicamente();
+
